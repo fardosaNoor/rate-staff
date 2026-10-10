@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate CS Teaching Staff</title>
+</head>
+<body>
+    <h1>Rate CS Teaching Staff</h1>
+
+```
+<p>Welcome! View staff ratings below.</p>
+
+<p th:if="${#lists.isEmpty(ratings)}">
+    No ratings yet. Check back later!
+</p>
+
+<ul>
+    <li th:each="rating : ${ratings}">
+        <span th:text="${rating.name}">Staff name</span>
+        -
+        <span th:text="${rating.roleType}">Role</span>
+    </li>
+</ul>
+```
+
+</body>
+</html>
