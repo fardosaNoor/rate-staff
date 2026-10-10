@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Details | Rate CS Staff</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <a class="brand" th:href="@{/}">
+        <span class="brand-icon">R</span>
+        <span>Rate CS Staff</span>
+    </a>
+
+    <nav class="nav-links">
+        <a class="nav-link" th:href="@{/}">Home</a>
+        <a class="button button-primary" th:href="@{/ratings/new}">
+            + Add Staff
+        </a>
+    </nav>
+</header>
+
+<main class="container form-page">
+
+    <section class="hero form-hero">
+        <p class="eyebrow">STAFF PROFILE</p>
+        <h1 th:text="${rating.name}">Staff name</h1>
+        <p class="hero-description">
+            Teaching staff rating and profile details.
+        </p>
+    </section>
+
+    <section class="rating-form">
+
+        <div class="form-section">
+            <h2>Staff information</h2>
+
+            <div class="form-field">
+                <label>Full name</label>
+                <p th:text="${rating.name}">Staff name</p>
+            </div>
+
+            <div class="form-field">
+                <label>Email address</label>
+                <p th:text="${rating.email}">staff@example.com</p>
+            </div>
+
+            <div class="form-field">
+                <label>Role</label>
+                <p th:text="${rating.roleType}">TA</p>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Teaching ratings</h2>
+
+            <div class="average-rating">
+                <span class="star" aria-hidden="true">★</span>
+                <strong th:text="${#numbers.formatDecimal(
+                    (rating.clarityScore + rating.nicenessScore
+                    + rating.knowledgeableScore) / 3.0, 1, 1)}">
+                    8.0
+                </strong>
+                <span class="rating-out-of">/ 10 average</span>
+            </div>
+
+            <div class="score-list">
+                <div class="score-row">
+                    <span>Clarity</span>
+                    <strong>
+                        <span th:text="${rating.clarityScore}">8</span>/10
+                    </strong>
+                </div>
+
+                <div class="score-row">
+                    <span>Niceness</span>
+                    <strong>
+                        <span th:text="${rating.nicenessScore}">9</span>/10
+                    </strong>
+                </div>
+
+                <div class="score-row">
+                    <span>Knowledge</span>
+                    <strong>
+                        <span th:text="${rating.knowledgeableScore}">7</span>/10
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Additional comments</h2>
+
+            <p th:if="${rating.comment != null
+                        and !#strings.isEmpty(rating.comment)}"
+               th:text="${rating.comment}">
+                Staff comment
+            </p>
+
+            <p class="field-hint"
+               th:if="${rating.comment == null
+                        or #strings.isEmpty(rating.comment)}">
+                No comments have been added.
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <a class="button button-secondary" th:href="@{/}">
+                Back to Home
+            </a>
+
+            <a class="button button-primary"
+               th:href="@{/ratings/{id}/edit(id=${rating.id})}">
+                Edit Rating
+            </a>
+        </div>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <p>Rate CS Staff · Built for the CS community</p>
+</footer>
+
+</body>
+</html>

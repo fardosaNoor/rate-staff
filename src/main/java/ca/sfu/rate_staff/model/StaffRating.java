@@ -146,7 +146,13 @@ public class StaffRating {
         updatedAt = LocalDateTime.now();
     }
 
-  
-    
+
+    public StaffMemberProfile getProfile() {
+        return switch (roleType) {
+            case TA -> new TeachingAssistantProfile();
+            case PROF -> new ProfessorProfile();
+            case INSTRUCTOR -> new ProfessorProfile();
+        };
+    }
             
 }

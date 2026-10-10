@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff Rating | Rate CS Staff</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <a class="brand" th:href="@{/}">
+        <span class="brand-icon">R</span>
+        <span>Rate CS Staff</span>
+    </a>
+
+    <nav class="nav-links">
+        <a class="nav-link" th:href="@{/}">Home</a>
+    </nav>
+</header>
+
+<main class="container form-page">
+
+    <section class="hero form-hero">
+        <p class="eyebrow">CONTRIBUTE TO THE COMMUNITY</p>
+        <h1>Add a staff rating.</h1>
+        <p class="hero-description">
+            Enter the staff member's details and rate their teaching.
+        </p>
+    </section>
+
+  
+    <form class="rating-form"
+        th:action="${rating.id == null} ? @{/ratings} : @{/ratings/{id}(id=${rating.id})}"
+        th:object="${rating}"
+        method="post">
+
+
+        <div class="form-section">
+            <h2>Staff information</h2>
+            <p class="section-description">
+                Tell us who you're rating.
+            </p>
+
+            <div class="form-field">
+                <label for="name">Full name <span>*</span></label>
+                <input id="name"
+                       type="text"
+                       th:field="*{name}"
+                       placeholder="e.g. Alex Morgan"
+                       required>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}"></p>
+            </div>
+
+            <div class="form-field">
+                <label for="email">Email address <span>*</span></label>
+                <input id="email"
+                       type="email"
+                       th:field="*{email}"
+                       placeholder="e.g. alex@example.com"
+                       required>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}"></p>
+            </div>
+
+            <div class="form-field">
+                <label for="roleType">Staff role <span>*</span></label>
+                <select id="roleType" th:field="*{roleType}" required>
+                    <option value="">Select a role</option>
+                    <option th:each="role : ${roles}"
+                            th:value="${role}"
+                            th:text="${role}">
+                        TA
+                    </option>
+                </select>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('roleType')}"
+                   th:errors="*{roleType}"></p>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Teaching ratings</h2>
+            <p class="section-description">
+                Give each category a score from 1 to 10.
+            </p>
+
+            <div class="form-field">
+                <label for="clarityScore">Clarity <span>*</span></label>
+                <p class="field-hint">How clearly do they explain concepts?</p>
+                <select id="clarityScore"
+                        th:field="*{clarityScore}"
+                        required>
+                    <option value="">Select a score</option>
+                    <option th:each="score : ${#numbers.sequence(1,10)}"
+                            th:value="${score}"
+                            th:text="${score} + ' / 10'">
+                        8 / 10
+                    </option>
+                </select>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('clarityScore')}"
+                   th:errors="*{clarityScore}"></p>
+            </div>
+
+            <div class="form-field">
+                <label for="nicenessScore">Niceness <span>*</span></label>
+                <p class="field-hint">How approachable and respectful are they?</p>
+                <select id="nicenessScore"
+                        th:field="*{nicenessScore}"
+                        required>
+                    <option value="">Select a score</option>
+                    <option th:each="score : ${#numbers.sequence(1,10)}"
+                            th:value="${score}"
+                            th:text="${score} + ' / 10'">
+                        8 / 10
+                    </option>
+                </select>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('nicenessScore')}"
+                   th:errors="*{nicenessScore}"></p>
+            </div>
+
+            <div class="form-field">
+                <label for="knowledgeableScore">Knowledge <span>*</span></label>
+                <p class="field-hint">How knowledgeable are they about the subject?</p>
+                <select id="knowledgeableScore"
+                        th:field="*{knowledgeableScore}"
+                        required>
+                    <option value="">Select a score</option>
+                    <option th:each="score : ${#numbers.sequence(1,10)}"
+                            th:value="${score}"
+                            th:text="${score} + ' / 10'">
+                        8 / 10
+                    </option>
+                </select>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('knowledgeableScore')}"
+                   th:errors="*{knowledgeableScore}"></p>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Additional comments</h2>
+            <p class="section-description">
+                Optional feedback to provide more context.
+            </p>
+
+            <div class="form-field">
+                <label for="comment">Comment</label>
+                <textarea id="comment"
+                          th:field="*{comment}"
+                          rows="4"
+                          maxlength="500"
+                          placeholder="Share your experience (up to 500 characters)."></textarea>
+                <p class="field-hint">Maximum 500 characters.</p>
+                <p class="field-error"
+                   th:if="${#fields.hasErrors('comment')}"
+                   th:errors="*{comment}"></p>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a class="button button-secondary" th:href="@{/}">
+                Cancel
+            </a>
+            <button class="button button-primary" type="submit">
+                Save Rating
+            </button>
+        </div>
+
+    </form>
+</main>
+
+<footer class="footer">
+    <p>Rate CS Staff · Built for the CS community</p>
+</footer>
+
+</body>
+</html>

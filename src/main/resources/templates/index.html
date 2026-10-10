@@ -1,29 +1,217 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rate CS Teaching Staff</title>
+    <title>Rate CS Staff</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Rate CS Teaching Staff</h1>
 
-```
-<p>Welcome! View staff ratings below.</p>
+<header class="navbar">
+    <a class="brand" th:href="@{/}">
+        <span class="brand-icon">R</span>
+        <span>Rate CS Staff</span>
+    </a>
 
-<p th:if="${#lists.isEmpty(ratings)}">
-    No ratings yet. Check back later!
-</p>
+    <nav class="nav-links">
+        <a class="nav-link active" th:href="@{/}">Home</a>
+        <a class="button button-primary" th:href="@{/ratings/new}">
+            + Add Staff
+        </a>
+    </nav>
+</header>
 
-<ul>
-    <li th:each="rating : ${ratings}">
-        <span th:text="${rating.name}">Staff name</span>
-        -
-        <span th:text="${rating.roleType}">Role</span>
-    </li>
-</ul>
-```
+<main class="container">
+
+    <section class="hero">
+        <p class="eyebrow">COMPUTER SCIENCE COMMUNITY</p>
+        <h1>Find your teaching staff.</h1>
+        <p class="hero-description">
+            Explore teaching staff ratings and share your experience.
+        </p>
+    </section>
+
+    <section class="staff-section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Teaching staff</h2>
+                <p class="section-description">
+                    Browse ratings for TAs, professors, and instructors.
+                </p>
+            </div>
+
+            <span class="staff-count"
+                  th:text="${#lists.size(ratings)} + ' staff members'">
+                0 staff members
+            </span>
+        </div>
+
+        <div class="filters">
+            <label class="search-box">
+                <span aria-hidden="true">⌕</span>
+                <input id="staffSearch"
+                       type="search"
+                       placeholder="Search by staff name..."
+                       aria-label="Search staff by name">
+            </label>
+
+            <label class="filter-box">
+                <span class="visually-hidden">Filter by role</span>
+                <select id="roleFilter">
+                    <option value="">All roles</option>
+                    <option value="TA">Teaching Assistant</option>
+                    <option value="PROF">Professor</option>
+                    <option value="INSTRUCTOR">Instructor</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="staff-grid" id="staffGrid">
+
+            <article class="staff-card"
+                     th:each="rating : ${ratings}"
+                     th:attr="data-name=${rating.name},
+                              data-role=${rating.roleType}">
+
+                <div class="card-top">
+                    <div class="avatar"
+                         th:text="${#strings.substring(rating.name, 0, 1).toUpperCase()}">
+                        A
+                    </div>
+
+                    <span class="role-badge"
+                          th:text="${rating.roleType}">
+                        TA
+                    </span>
+                </div>
+
+                <h3 class="staff-name" th:text="${rating.name}">
+                    Staff name
+                </h3>
+
+                <p class="staff-email" th:text="${rating.email}">
+                    staff@example.com
+                </p>
+
+                <div class="average-rating">
+                    <span class="star" aria-hidden="true">★</span>
+                    <strong th:text="${#numbers.formatDecimal(
+                        (rating.clarityScore + rating.nicenessScore
+                        + rating.knowledgeableScore) / 3.0, 1, 1)}">
+                        8.0
+                    </strong>
+                    <span class="rating-out-of">/ 10 average</span>
+                </div>
+
+                <div class="score-list">
+                    <div class="score-row">
+                        <span>Clarity</span>
+                        <strong>
+                            <span th:text="${rating.clarityScore}">8</span>/10
+                        </strong>
+                    </div>
+
+                    <div class="score-row">
+                        <span>Niceness</span>
+                        <strong>
+                            <span th:text="${rating.nicenessScore}">9</span>/10
+                        </strong>
+                    </div>
+
+                    <div class="score-row">
+                        <span>Knowledge</span>
+                        <strong>
+                            <span th:text="${rating.knowledgeableScore}">7</span>/10
+                        </strong>
+                    </div>
+                </div>
+
+                <p class="card-comment"
+                   th:if="${rating.comment != null and !#strings.isEmpty(rating.comment)}"
+                   th:text="${rating.comment}">
+                    Staff rating comment
+                </p>
+
+                <div class="card-actions">
+                    <a class="button button-secondary"
+                       th:href="@{/ratings/{id}(id=${rating.id})}">
+                        View
+                    </a>
+
+                    <a class="button button-secondary"
+                       th:href="@{/ratings/{id}/edit(id=${rating.id})}">
+                        Edit
+                    </a>
+
+                    <form class="delete-form"
+                          th:action="@{/ratings/{id}/delete(id=${rating.id})}"
+                          method="post"
+                          onsubmit="return confirm('Permanently delete this staff rating?');">
+                        <button class="button button-danger" type="submit">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </article>
+
+        </div>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(ratings)}">
+            <div class="empty-icon">✦</div>
+            <h3>No staff ratings yet</h3>
+            <p>Add the first staff member to get started.</p>
+            <a class="button button-primary" th:href="@{/ratings/new}">
+                + Add Staff
+            </a>
+        </div>
+
+        <p class="no-results" id="noResults" hidden>
+            No staff match your search. Try a different name or role.
+        </p>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <p>Rate CS Staff · Built for the CS community</p>
+</footer>
+
+<script>
+    const searchInput = document.getElementById("staffSearch");
+    const roleFilter = document.getElementById("roleFilter");
+    const cards = document.querySelectorAll(".staff-card");
+    const noResults = document.getElementById("noResults");
+
+    function filterStaff() {
+        const search = searchInput.value.trim().toLowerCase();
+        const role = roleFilter.value;
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const name = card.dataset.name.toLowerCase();
+            const cardRole = card.dataset.role;
+
+            const matchesName = name.includes(search);
+            const matchesRole = role === "" || cardRole === role;
+            const visible = matchesName && matchesRole;
+
+            card.hidden = !visible;
+
+            if (visible) {
+                visibleCount++;
+            }
+        });
+
+        noResults.hidden = visibleCount !== 0;
+    }
+
+    searchInput.addEventListener("input", filterStaff);
+    roleFilter.addEventListener("change", filterStaff);
+</script>
 
 </body>
 </html>
+```
