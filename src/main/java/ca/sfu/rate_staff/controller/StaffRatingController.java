@@ -75,6 +75,14 @@ public class StaffRatingController {
             Model model,
             RedirectAttributes redirectAttributes) {
 
+        if (!result.hasErrors() && repository.existsByEmail(rating.getEmail())) {
+        result.rejectValue(
+                "email",
+                "duplicate",
+                "This email is already used for another staff rating."
+        );
+    }
+
         if (result.hasErrors()) {
             model.addAttribute("roles", RoleType.values());
             return "rating-form";
@@ -103,11 +111,20 @@ public class StaffRatingController {
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (result.hasErrors()) {
-            formRating.setId(id);
-            model.addAttribute("roles", RoleType.values());
-            return "rating-form";
-        }
+            if (!result.hasErrors()
+            && repository.existsByEmailAndIdNot(formRating.getEmail(), id)) {
+        result.rejectValue(
+                "email",
+                "duplicate",
+                "This email is already used for another staff rating."
+        );
+    }
+
+    if (result.hasErrors()) {
+        formRating.setId(id);
+        model.addAttribute("roles", RoleType.values());
+        return "rating-form";
+    }
 
         existingRating.setName(formRating.getName());
         existingRating.setEmail(formRating.getEmail());
