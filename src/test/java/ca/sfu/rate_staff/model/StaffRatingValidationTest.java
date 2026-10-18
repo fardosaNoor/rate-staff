@@ -89,4 +89,15 @@ class StaffRatingValidationTest {
 
         assertFalse(violations.isEmpty());
     }
+
+    @Test
+    void nameLongerThan100CharactersShouldBeInvalid() {
+        StaffRating rating = new StaffRating();
+        rating.setName("a".repeat(101));
+
+        var violations = validator.validateProperty(
+                rating, "name");
+
+        assertFalse(violations.isEmpty());
+    }
 }

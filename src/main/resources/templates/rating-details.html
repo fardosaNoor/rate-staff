@@ -115,6 +115,14 @@
                th:href="@{/ratings/{id}/edit(id=${rating.id})}">
                 Edit Rating
             </a>
+            <form class="delete-form"
+            th:action="@{/ratings/{id}/delete(id=${rating.id})}"
+            method="post"
+            onsubmit="return confirm('Permanently delete this staff rating?');">
+                <button class="button button-danger" type="submit">
+                    Delete Rating
+                </button>
+        </form>
         </div>
 
     </section>

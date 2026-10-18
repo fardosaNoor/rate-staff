@@ -24,6 +24,7 @@ public class StaffRating {
     private Long id;
 
     @NotBlank
+    @Size(max = 100, message = "Name cannot be longer than 100 characters")
     private String name;
 
     @NotBlank
