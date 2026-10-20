@@ -12,6 +12,7 @@ You can also run each test file separately:
 ./mvnw -Dtest=StaffRatingValidationTest test
 ./mvnw -Dtest=StaffRatingControllerTest test
 ./mvnw -Dtest=StaffRatingRepositoryTest test
+./mvnw -Dtest=StaffMemberProfileTest test
 
 ## Validation Tests
 

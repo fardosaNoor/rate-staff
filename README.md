@@ -28,7 +28,9 @@ The application was built using Java and Spring Boot, with PostgreSQL used to st
 
 ## Design
 
-Each role has its own profile class that extends the abstract class `StaffMemberProfile`. Each profile class overrides the `displayTitle()` method, so a TA shows as "Teaching Assistant" and a professor shows as "Professor". The title is shown on the home page and the details page.
+## Design
+
+Each role has its own profile class that extends the abstract class `StaffMemberProfile`. Each profile class overrides the `displayTitle()` method, so a TA shows as "Teaching Assistant", a professor shows as "Professor", and an instructor shows as "Instructor". `StaffRating.getProfile()` returns the right profile for the rating's role, and the title is shown on the home page and the details page.
 
 ## Technologies
 
@@ -45,13 +47,13 @@ Each role has its own profile class that extends the abstract class `StaffMember
 
 1. Make sure Java 21 and PostgreSQL are installed and PostgreSQL is running.
 2. Create a PostgreSQL database named `rate_staff`.
-3. By default, the app connects to `localhost:5432/rate_staff` with the username `postgres` and the password `postgres`. If your setup is different, set these environment variables instead of changing the properties file:
+3. By default, the app connects to `localhost:5432/rate_staff` with the username `fardosanoor` and no password (my local setup). If your setup is different, set these environment variables before running instead of changing the properties file:
 
    export DB_URL=jdbc:postgresql://localhost:5432/rate_staff
    export DB_USERNAME=your_username
    export DB_PASSWORD=your_password
- 
 
+   On Windows PowerShell, use `$env:DB_USERNAME="your_username"` instead of `export`.
 4. In the project directory, run:
 
    ./mvnw spring-boot:run
