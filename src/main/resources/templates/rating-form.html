@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Staff Rating | Rate CS Staff</title>
+    <title th:text="${rating.id == null} ? 'Add Staff Rating | Rate CS Staff' : 'Edit Staff Rating | Rate CS Staff'">Add Staff Rating | Rate CS Staff</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -23,8 +23,9 @@
 
     <section class="hero form-hero">
         <p class="eyebrow">CONTRIBUTE TO THE COMMUNITY</p>
-        <h1>Add a staff rating.</h1>
-        <p class="hero-description">
+        <h1 th:text="${rating.id == null} ? 'Add a staff rating.' : 'Edit staff rating.'">Add a staff rating.</h1>
+        <p class="hero-description"
+           th:text="${rating.id == null} ? 'Enter the staff member''s details and rate their teaching.' : 'Update the details or scores for this rating.'">
             Enter the staff member's details and rate their teaching.
         </p>
     </section>
