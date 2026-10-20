@@ -26,7 +26,6 @@ The application was built using Java and Spring Boot, with PostgreSQL used to st
 - Clarity, niceness, and knowledge scores must be whole numbers from 1 to 10
 - Comment is optional, but cannot be longer than 500 characters
 
-## Design
 
 ## Design
 
@@ -63,13 +62,6 @@ Each role has its own profile class that extends the abstract class `StaffMember
 
 The database table is created automatically when the app starts.
 
-## Running Tests
-
-Run the tests using:
-
-./mvnw test
-
-PostgreSQL needs to be running for the database tests. See `TESTING.md` for more information about the tests.
 
 ## How to Deploy
 
@@ -87,9 +79,3 @@ The app is deployed on Render using the `Dockerfile` in this project.
 
 No passwords are stored in the code. The `application.properties` file reads the database settings from these environment variables, and Render sets the port automatically.
 
-## Future Improvements
-
-- Add user login
-- Add sorting for ratings
-- Show an average rating for each instructor across all their ratings
-- Improve the application based on user feedback
