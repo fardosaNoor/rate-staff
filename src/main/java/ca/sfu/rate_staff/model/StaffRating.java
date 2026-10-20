@@ -152,7 +152,7 @@ public class StaffRating {
         return switch (roleType) {
             case TA -> new TeachingAssistantProfile();
             case PROF -> new ProfessorProfile();
-            case INSTRUCTOR -> new ProfessorProfile();
+            case INSTRUCTOR -> new InstructorProfile();
         };
     }
             
